@@ -2,7 +2,11 @@
  THESE ARE EXAMPLE CONFIGS FEEL FREE TO CHANGE TO WHATEVER YOU WANT
  `lvim` is the global options object
 ]]
-reload("user.wsl_clipboard")
+require("user.wsl_clipboard")
+
+-- Color scheme
+require("user.colorscheme.catppuccin")
+-- require("user.colorscheme.edge")
 
 -- vim options
 -- vim.opt.shiftwidth = 2
@@ -33,7 +37,6 @@ lvim.keys.normal_mode["<M-h>"] = ":BufferLineCyclePrev<CR>"
 -- lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Projects" }
 
 -- -- Change theme settings
--- lvim.colorscheme = "lunar"
 
 lvim.builtin.alpha.active = true
 lvim.builtin.alpha.mode = "dashboard"
@@ -97,6 +100,11 @@ linters.setup({
 
 -- Additional Plugins <https://www.lunarvim.org/docs/plugins#user-plugins>
 lvim.plugins = {
+	{
+		"catppuccin/nvim",
+		name = "catppuccin",
+	},
+	{ "sainnhe/edge" },
 	{
 		"folke/trouble.nvim",
 		cmd = "TroubleToggle",
