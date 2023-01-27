@@ -5,8 +5,11 @@
 require("user.wsl_clipboard")
 
 -- Color scheme
-require("user.colorscheme.catppuccin")
+-- require("user.colorscheme.catppuccin")
 -- require("user.colorscheme.edge")
+vim.o.background = "light" -- or "light" for light mode
+vim.cmd([[colorscheme gruvbox]])
+lvim.colorscheme = "gruvbox"
 
 -- vim options
 -- vim.opt.shiftwidth = 2
@@ -105,6 +108,8 @@ lvim.plugins = {
 		name = "catppuccin",
 	},
 	{ "sainnhe/edge" },
+	{ "RRethy/nvim-base16" },
+	{ "ellisonleao/gruvbox.nvim" },
 	{
 		"folke/trouble.nvim",
 		cmd = "TroubleToggle",

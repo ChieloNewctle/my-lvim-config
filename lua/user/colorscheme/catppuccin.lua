@@ -1,4 +1,6 @@
+-- vim.o.background = "light"
 require("catppuccin").setup({
+	-- flavour = "latte",
 	flavour = "macchiato",
 	background = {
 		light = "latte",
