@@ -55,6 +55,8 @@ lvim.builtin.treesitter.auto_install = true
 
 -- -- generic LSP settings <https://www.lunarvim.org/docs/languages#lsp-support>
 
+require("lvim.lsp.manager").setup("marksman", {})
+
 -- --- disable automatic installation of servers
 -- lvim.lsp.installer.setup.automatic_installation = false
 
@@ -86,6 +88,7 @@ formatters.setup({
 	{ command = "stylua" },
 	{ command = "blue" },
 	{ command = "isort" },
+	{ command = "markdownlint" },
 	-- {
 	--   command = "prettier",
 	--   extra_args = { "--print-width", "100" },
