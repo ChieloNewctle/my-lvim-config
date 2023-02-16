@@ -55,22 +55,27 @@ lvim.builtin.treesitter.auto_install = true
 
 -- -- generic LSP settings <https://www.lunarvim.org/docs/languages#lsp-support>
 
-require("lvim.lsp.manager").setup("marksman", {})
+local enabled_lsp_servers = {
+	"ruff_lsp",
+	"marksman",
+}
+for _, name in pairs(enabled_lsp_servers) do
+	require("lvim.lsp.manager").setup(name, {})
+end
 
 -- --- disable automatic installation of servers
 -- lvim.lsp.installer.setup.automatic_installation = false
+
+-- vim.lsp.set_log_level("DEBUG")
 
 -- ---configure a server manually. IMPORTANT: Requires `:LvimCacheReset` to take effect
 -- ---see the full default list `:lua =lvim.lsp.automatic_configuration.skipped_servers`
 -- vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "pyright" })
 -- local opts = {} -- check the lspconfig documentation for a list of all possible options
--- require("lvim.lsp.manager").setup("pyright", opts)
 
 -- ---remove a server from the skipped list, e.g. eslint, or emmet_ls. IMPORTANT: Requires `:LvimCacheReset` to take effect
 -- ---`:LvimInfo` lists which server(s) are skipped for the current filetype
--- lvim.lsp.automatic_configuration.skipped_servers = vim.tbl_filter(function(server)
---   return server ~= "emmet_ls"
--- end, lvim.lsp.automatic_configuration.skipped_servers)
+--
 
 -- -- you can set a custom on_attach function that will be used for all the language servers
 -- -- See <https://github.com/neovim/nvim-lspconfig#keybindings-and-completion>
@@ -97,6 +102,7 @@ formatters.setup({
 })
 local linters = require("lvim.lsp.null-ls.linters")
 linters.setup({
+	-- { command = "mypy", filetypes = { "python" } },
 	-- { command = "flake8", filetypes = { "python" } },
 	-- {
 	--   command = "shellcheck",
