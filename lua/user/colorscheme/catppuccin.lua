@@ -1,10 +1,10 @@
 -- vim.o.background = "light"
 require("catppuccin").setup({
 	-- flavour = "latte",
-	flavour = "macchiato",
+	flavour = "mocha",
 	background = {
 		light = "latte",
-		dark = "macchiato",
+		dark = "mocha",
 	},
 	integrations = {
 		cmp = true,

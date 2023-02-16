@@ -5,11 +5,12 @@
 require("user.wsl_clipboard")
 
 -- Color scheme
--- require("user.colorscheme.catppuccin")
+vim.o.background = "dark" -- or "light" for light mode
+-- require("user.colorscheme.onenord")
+require("user.colorscheme.catppuccin")
 -- require("user.colorscheme.edge")
-vim.o.background = "light" -- or "light" for light mode
-vim.cmd([[colorscheme gruvbox]])
-lvim.colorscheme = "gruvbox"
+-- vim.cmd([[colorscheme gruvbox]])
+-- lvim.colorscheme = "gruvbox"
 
 -- vim options
 -- vim.opt.shiftwidth = 2
@@ -122,6 +123,10 @@ lvim.plugins = {
 	{
 		"folke/trouble.nvim",
 		cmd = "TroubleToggle",
+	},
+	{
+		"rmehri01/onenord.nvim",
+		branch = "main",
 	},
 }
 
