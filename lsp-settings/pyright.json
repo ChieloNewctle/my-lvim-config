@@ -1,5 +1,5 @@
 {
-  "python.analysis.autoSearchPaths": false,
+  "python.analysis.autoSearchPaths": true,
   "python.analysis.useLibraryCodeForTypes": false,
   "python.analysis.diagnosticMode": "openFilesOnly"
 }
