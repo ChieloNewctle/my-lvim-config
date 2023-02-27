@@ -77,7 +77,6 @@ lvim.builtin.treesitter.auto_install = true
 -- -- generic LSP settings <https://www.lunarvim.org/docs/languages#lsp-support>
 
 local enabled_lsp_servers = {
-	"ruff_lsp",
 	"marksman",
 }
 for _, name in pairs(enabled_lsp_servers) do
@@ -114,6 +113,7 @@ formatters.setup({
 	{ command = "stylua" },
 	{ command = "blue" },
 	{ command = "isort" },
+	{ command = "ruff" },
 	{ command = "markdownlint" },
 	-- {
 	--   command = "prettier",
