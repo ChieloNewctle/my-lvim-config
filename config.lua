@@ -2,6 +2,26 @@
  THESE ARE EXAMPLE CONFIGS FEEL FREE TO CHANGE TO WHATEVER YOU WANT
  `lvim` is the global options object
 ]]
+
+-- Additional Plugins <https://www.lunarvim.org/docs/plugins#user-plugins>
+lvim.plugins = {
+	{
+		"catppuccin/nvim",
+		name = "catppuccin",
+	},
+	{ "sainnhe/edge" },
+	{ "RRethy/nvim-base16" },
+	{ "ellisonleao/gruvbox.nvim" },
+	{
+		"folke/trouble.nvim",
+		cmd = "TroubleToggle",
+	},
+	{
+		"rmehri01/onenord.nvim",
+		branch = "main",
+	},
+}
+
 require("user.wsl_clipboard")
 
 -- Color scheme
@@ -110,25 +130,6 @@ linters.setup({
 	--   args = { "--severity", "warning" },
 	-- },
 })
-
--- Additional Plugins <https://www.lunarvim.org/docs/plugins#user-plugins>
-lvim.plugins = {
-	{
-		"catppuccin/nvim",
-		name = "catppuccin",
-	},
-	{ "sainnhe/edge" },
-	{ "RRethy/nvim-base16" },
-	{ "ellisonleao/gruvbox.nvim" },
-	{
-		"folke/trouble.nvim",
-		cmd = "TroubleToggle",
-	},
-	{
-		"rmehri01/onenord.nvim",
-		branch = "main",
-	},
-}
 
 -- Autocommands (`:help autocmd`) <https://neovim.io/doc/user/autocmd.html>
 vim.api.nvim_create_autocmd("FileType", {
