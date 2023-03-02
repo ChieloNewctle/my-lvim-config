@@ -1,10 +1,6 @@
---[[
- THESE ARE EXAMPLE CONFIGS FEEL FREE TO CHANGE TO WHATEVER YOU WANT
- `lvim` is the global options object
-]]
-
 -- Additional Plugins <https://www.lunarvim.org/docs/plugins#user-plugins>
 lvim.plugins = {
+	-- Colorschemes
 	{
 		"catppuccin/nvim",
 		name = "catppuccin",
@@ -20,9 +16,24 @@ lvim.plugins = {
 		"rmehri01/onenord.nvim",
 		branch = "main",
 	},
-}
+	-- Functionalities
+	{
+		"folke/todo-comments.nvim",
+		dependencies = { "nvim-lua/plenary.nvim" },
+		config = function()
+			require("todo-comments").setup({})
 
-require("user.wsl_clipboard")
+			vim.keymap.set("n", "]t", function()
+				require("todo-comments").jump_next()
+			end, { desc = "Next todo comment" })
+
+			vim.keymap.set("n", "[t", function()
+				require("todo-comments").jump_prev()
+			end, { desc = "Previous todo comment" })
+		end,
+	},
+	{ "echasnovski/mini.nvim" },
+}
 
 -- Color scheme
 vim.o.background = "dark" -- or "light" for light mode
@@ -32,36 +43,39 @@ require("user.colorscheme.catppuccin")
 -- vim.cmd([[colorscheme gruvbox]])
 -- lvim.colorscheme = "gruvbox"
 
+require("user.wsl_clipboard")
+
+lvim.builtin.autopairs.enable_check_bracket_line = true
+
 -- vim options
 -- vim.opt.shiftwidth = 2
 -- vim.opt.tabstop = 2
 vim.opt.relativenumber = true
 
--- general
+-- General
 lvim.log.level = "info"
 lvim.format_on_save = {
 	enabled = true,
-	-- pattern = "*.lua",
 	timeout = 1000,
 }
--- to disable icons and use a minimalist setup, uncomment the following
--- lvim.use_icons = false
 
--- keymappings <https://www.lunarvim.org/docs/configuration/keybindings>
+-- Keymappings <https://www.lunarvim.org/docs/configuration/keybindings>
 lvim.leader = "space"
--- add your own keymapping
-lvim.keys.normal_mode["<leader>w"] = ":w<cr>"
-lvim.keys.normal_mode["<leader>Q"] = ":qa<cr>"
+
+-- -- Use which-key to add extra bindings with the leader-key prefix
+lvim.builtin.which_key.mappings["W"] = { "<cmd>noautocmd w<cr>", "Save without formatting" }
+lvim.builtin.which_key.mappings["Q"] = { "<cmd>qa<cr>", "Close all" }
 
 lvim.keys.normal_mode["<M-l>"] = ":BufferLineCycleNext<CR>"
 lvim.keys.normal_mode["<M-h>"] = ":BufferLineCyclePrev<CR>"
 
--- -- Use which-key to add extra bindings with the leader-key prefix
--- lvim.builtin.which_key.mappings["W"] = { "<cmd>noautocmd w<cr>", "Save without formatting" }
--- lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Projects" }
+lvim.builtin.which_key.mappings["s"]["b"] = { "<cmd>Telescope buffers<cr>", "Search buffer" }
+lvim.builtin.which_key.mappings["s"]["B"] = { "<cmd>Telescope git_branches<cr>", "Checkout branch" }
 
--- -- Change theme settings
+lvim.builtin.telescope.defaults.mappings.i["<C-c>"] = require("telescope.actions").delete_buffer
+lvim.builtin.telescope.defaults.mappings.n["<C-c>"] = require("telescope.actions").delete_buffer
 
+-- Style
 lvim.builtin.alpha.active = true
 lvim.builtin.alpha.mode = "dashboard"
 lvim.builtin.dap.active = true
@@ -72,63 +86,32 @@ lvim.builtin.nvimtree.setup.renderer.icons.show.git = false
 -- Automatically install missing parsers when entering buffer
 lvim.builtin.treesitter.auto_install = true
 
--- lvim.builtin.treesitter.ignore_install = { "haskell" }
-
 -- -- generic LSP settings <https://www.lunarvim.org/docs/languages#lsp-support>
-
-local enabled_lsp_servers = {
-	"marksman",
-}
-for _, name in pairs(enabled_lsp_servers) do
-	require("lvim.lsp.manager").setup(name, {})
-end
-
--- --- disable automatic installation of servers
--- lvim.lsp.installer.setup.automatic_installation = false
-
--- vim.lsp.set_log_level("DEBUG")
-
--- ---configure a server manually. IMPORTANT: Requires `:LvimCacheReset` to take effect
--- ---see the full default list `:lua =lvim.lsp.automatic_configuration.skipped_servers`
--- vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "pyright" })
--- local opts = {} -- check the lspconfig documentation for a list of all possible options
-
--- ---remove a server from the skipped list, e.g. eslint, or emmet_ls. IMPORTANT: Requires `:LvimCacheReset` to take effect
--- ---`:LvimInfo` lists which server(s) are skipped for the current filetype
 --
+lvim.lsp.installer.setup.automatic_installation = true
 
--- -- you can set a custom on_attach function that will be used for all the language servers
--- -- See <https://github.com/neovim/nvim-lspconfig#keybindings-and-completion>
--- lvim.lsp.on_attach_callback = function(client, bufnr)
---   local function buf_set_option(...)
---     vim.api.nvim_buf_set_option(bufnr, ...)
---   end
---   --Enable completion triggered by <c-x><c-o>
---   buf_set_option("omnifunc", "v:lua.vim.lsp.omnifunc")
--- end
+-- Markdown support
+lvim.lsp.automatic_configuration.skipped_filetypes = vim.tbl_filter(function(server)
+	return server ~= "markdown"
+end, lvim.lsp.automatic_configuration.skipped_filetypes)
+vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, {
+	"grammarly",
+	"ltex",
+	"prosemd_lsp",
+	"remark_ls",
+	"zk",
+})
 
 -- linters and formatters <https://www.lunarvim.org/docs/languages#lintingformatting>
 local formatters = require("lvim.lsp.null-ls.formatters")
 formatters.setup({
-	{ command = "stylua" },
-	{ command = "blue" },
-	{ command = "isort" },
-	{ command = "ruff" },
-	{ command = "markdownlint" },
-	-- {
-	--   command = "prettier",
-	--   extra_args = { "--print-width", "100" },
-	--   filetypes = { "typescript", "typescriptreact" },
-	-- },
+	{ command = "stylua", filetypes = { "lua" } },
+	{ command = "blue", filetypes = { "python" } },
 })
 local linters = require("lvim.lsp.null-ls.linters")
 linters.setup({
-	-- { command = "mypy", filetypes = { "python" } },
-	-- { command = "flake8", filetypes = { "python" } },
-	-- {
-	--   command = "shellcheck",
-	--   args = { "--severity", "warning" },
-	-- },
+	{ command = "ruff", filetypes = { "python" } },
+	{ command = "markdownlint", filetypes = { "markdown" } },
 })
 
 -- Autocommands (`:help autocmd`) <https://neovim.io/doc/user/autocmd.html>
