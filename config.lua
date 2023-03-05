@@ -26,13 +26,21 @@ lvim.plugins = {
 			vim.keymap.set("n", "]t", function()
 				require("todo-comments").jump_next()
 			end, { desc = "Next todo comment" })
-
 			vim.keymap.set("n", "[t", function()
 				require("todo-comments").jump_prev()
 			end, { desc = "Previous todo comment" })
 		end,
 	},
 	{ "echasnovski/mini.nvim" },
+	{
+		"ggandor/lightspeed.nvim",
+		config = function()
+			vim.keymap.set("n", "s", "<Plug>Lightspeed_omni_s", { desc = "Bidirectional search" })
+			vim.keymap.set("x", "s", "<Plug>Lightspeed_omni_s", { desc = "Bidirectional search" })
+			vim.keymap.set("n", "gs", "<Plug>Lightspeed_omni_gs", { desc = "Bidirectional search" })
+			vim.keymap.set("x", "gs", "<Plug>Lightspeed_omni_gs", { desc = "Bidirectional search" })
+		end,
+	},
 }
 
 -- Color scheme
@@ -44,6 +52,7 @@ require("user.colorscheme.catppuccin")
 -- lvim.colorscheme = "gruvbox"
 
 require("user.wsl_clipboard")
+require("user.mini")
 
 lvim.builtin.autopairs.enable_check_bracket_line = true
 

@@ -12,7 +12,7 @@ local function set_win32yank_clipboard(_, retval, _)
 			},
 			cache_enable = 0,
 		}
-		print("set win32yank clipboard")
+		-- print("set win32yank clipboard")
 	end
 end
 
