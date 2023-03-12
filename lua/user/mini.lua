@@ -27,3 +27,5 @@ require("mini.move").setup({
 	},
 })
 require("mini.trailspace").setup()
+
+vim.g.miniindentscope_disable = true
