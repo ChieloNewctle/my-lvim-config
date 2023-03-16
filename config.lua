@@ -76,9 +76,6 @@ lvim.plugins = {
 			vim.keymap.set("x", "s", "<Plug>Lightspeed_omni_s", { desc = "Bidirectional search" })
 			vim.keymap.set("n", "gs", "<Plug>Lightspeed_omni_gs", { desc = "Bidirectional search" })
 			vim.keymap.set("x", "gs", "<Plug>Lightspeed_omni_gs", { desc = "Bidirectional search" })
-			local lightspeed = require("lightspeed")
-			lightspeed.opts.jump_to_unique_chars = false
-			lightspeed.opts.force_beacons_into_match_width = true
 		end,
 	},
 	{
@@ -117,13 +114,6 @@ lvim.plugins = {
 		end,
 	},
 	{
-		"ray-x/lsp_signature.nvim",
-		event = "BufRead",
-		config = function()
-			require("lsp_signature").on_attach()
-		end,
-	},
-	{
 		"mfussenegger/nvim-dap-python",
 		config = function()
 			local mason_path = vim.fn.glob(vim.fn.stdpath("data") .. "/mason/")
@@ -134,6 +124,66 @@ lvim.plugins = {
 				s = { "<cmd>lua require('dap-python').debug_selection()<cr>", "Debug Selection" },
 			}
 		end,
+	},
+	{
+		"pwntester/octo.nvim",
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+			"nvim-telescope/telescope.nvim",
+			"nvim-tree/nvim-web-devicons",
+		},
+		config = function()
+			require("octo").setup()
+			lvim.builtin.which_key.mappings["I"] = {
+				["L"] = { "<cmd>Octo issue list<cr>", "List issues" },
+				["C"] = { "<cmd>Octo issue create<cr>", "Create an issue" },
+			}
+		end,
+	},
+	{
+		"hkupty/iron.nvim",
+		config = function()
+			local iron = require("iron.core")
+
+			iron.setup({
+				config = {
+					scratch_repl = true,
+					should_map_plug = false,
+					repl_definition = {
+						python = {
+							command = { "ipython" },
+							format = require("iron.fts.common").bracketed_paste,
+						},
+					},
+					repl_open_cmd = "vertical botright 70 split",
+				},
+				keymaps = {
+					send_motion = "<space>ic",
+					visual_send = "<space>ic",
+					interrupt = "<space>ii",
+					exit = "<space>iq",
+				},
+			})
+
+			lvim.builtin.which_key.mappings["i"] = {
+				s = { "<cmd>IronRepl<cr>", "Start Iron Repl" },
+				r = { "<cmd>IronRestart<cr>", "Restart Iron Repl" },
+				f = { "<cmd>IronFocus<cr>", "Focus on Iron Repl" },
+				h = { "<cmd>IronHide<cr>", "Hide Iron Repl" },
+			}
+			vim.cmd.nmap("]x", "<space>icih]h")
+		end,
+	},
+	{
+		"goerz/jupytext.vim",
+		config = function()
+			vim.g.jupytext_enable = true
+			vim.g.jupytext_fmt = "py:percent"
+		end,
+	},
+	{
+		"GCBallesteros/vim-textobj-hydrogen",
+		dependencies = { "kana/vim-textobj-user" },
 	},
 }
 
@@ -227,7 +277,7 @@ local formatters = require("lvim.lsp.null-ls.formatters")
 formatters.setup({
 	{ command = "stylua", filetypes = { "lua" } },
 	{ command = "blue", filetypes = { "python" } },
-	{ command = "isort", filetypes = { "python" } },
+	-- { command = "isort", filetypes = { "python" } },
 })
 local linters = require("lvim.lsp.null-ls.linters")
 linters.setup({
