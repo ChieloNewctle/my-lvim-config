@@ -171,6 +171,7 @@ lvim.plugins = {
 				f = { "<cmd>IronFocus<cr>", "Focus on Iron Repl" },
 				h = { "<cmd>IronHide<cr>", "Hide Iron Repl" },
 			}
+			vim.cmd.nmap("[x", "<space>icih")
 			vim.cmd.nmap("]x", "<space>icih]h")
 		end,
 	},
