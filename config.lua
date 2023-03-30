@@ -16,6 +16,13 @@ lvim.plugins = {
 		"rmehri01/onenord.nvim",
 		branch = "main",
 	},
+	{
+		"xiyaowong/transparent.nvim",
+		config = function()
+			require("transparent").setup()
+			vim.cmd("TransparentEnable")
+		end,
+	},
 	-- Neotree
 	{
 		"nvim-neo-tree/neo-tree.nvim",
@@ -26,7 +33,7 @@ lvim.plugins = {
 			"MunifTanjim/nui.nvim",
 		},
 		config = function()
-			vim.cmd([[ let g:neo_tree_remove_legacy_commands = 1 ]])
+			vim.g.neo_tree_remove_legacy_commands = 1
 			require("neo-tree").setup({
 				close_if_last_window = true,
 				source_selector = {
@@ -190,6 +197,7 @@ lvim.plugins = {
 
 lvim.builtin.nvimtree.active = false -- NOTE: use neo-tree
 lvim.builtin.treesitter.rainbow.enable = true
+lvim.builtin.autopairs.active = false
 
 -- Color scheme
 vim.o.background = "dark" -- or "light" for light mode
@@ -274,16 +282,22 @@ vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, {
 })
 
 -- linters and formatters <https://www.lunarvim.org/docs/languages#lintingformatting>
+local null_ls = require("null-ls")
 local formatters = require("lvim.lsp.null-ls.formatters")
 formatters.setup({
-	{ command = "stylua", filetypes = { "lua" } },
-	{ command = "blue", filetypes = { "python" } },
+	-- { command = "stylua", filetypes = { "lua" } },
+	-- { command = "blue", filetypes = { "python" } },
 	-- { command = "isort", filetypes = { "python" } },
+	null_ls.builtins.formatting.blue,
+	null_ls.builtins.formatting.stylua,
 })
 local linters = require("lvim.lsp.null-ls.linters")
 linters.setup({
-	{ command = "ruff", filetypes = { "python" } },
-	{ command = "markdownlint", filetypes = { "markdown" } },
+	-- { command = "ruff", filetypes = { "python" } },
+	-- { command = "mypy", filetypes = { "python" } },
+	-- { command = "markdownlint", filetypes = { "markdown" } },
+	null_ls.builtins.diagnostics.ruff,
+	null_ls.builtins.diagnostics.markdownlint,
 })
 
 -- Autocommands (`:help autocmd`) <https://neovim.io/doc/user/autocmd.html>
