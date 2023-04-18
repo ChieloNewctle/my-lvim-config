@@ -23,6 +23,8 @@ lvim.plugins = {
 			vim.cmd("TransparentEnable")
 		end,
 	},
+	{ "Shatur/neovim-ayu" },
+	{ "sainnhe/everforest" },
 	-- Neotree
 	{
 		"nvim-neo-tree/neo-tree.nvim",
@@ -200,10 +202,12 @@ lvim.builtin.treesitter.rainbow.enable = true
 lvim.builtin.autopairs.active = false
 
 -- Color scheme
-vim.o.background = "dark" -- or "light" for light mode
+vim.o.background = "light" -- or "light" for light mode
 -- require("user.colorscheme.onenord")
 require("user.colorscheme.catppuccin")
 -- require("user.colorscheme.edge")
+-- require("user.colorscheme.ayu")
+-- require("user.colorscheme.everforest")
 -- vim.cmd([[colorscheme gruvbox]])
 -- lvim.colorscheme = "gruvbox"
 
